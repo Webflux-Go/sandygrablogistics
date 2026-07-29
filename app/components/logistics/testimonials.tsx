@@ -52,7 +52,7 @@ export default function Testimonials() {
               type="button"
               onClick={goPrev}
               aria-label="Previous testimonial"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-neutral-200 text-neutral-900 transition-colors hover:bg-neutral-100"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-neutral-200 text-neutral-900 transition-colors hover:border-gold-500 hover:bg-gold-50 hover:text-gold-700"
             >
               <ArrowLeft size={18} />
             </button>
@@ -60,7 +60,7 @@ export default function Testimonials() {
               type="button"
               onClick={goNext}
               aria-label="Next testimonial"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-neutral-200 text-neutral-900 transition-colors hover:bg-neutral-100"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-neutral-200 text-neutral-900 transition-colors hover:border-gold-500 hover:bg-gold-50 hover:text-gold-700"
             >
               <ArrowRight size={18} />
             </button>
@@ -71,7 +71,7 @@ export default function Testimonials() {
           <Quote
             size={40}
             strokeWidth={1.5}
-            className="shrink-0 text-neutral-300"
+            className="shrink-0 text-gold-400"
           />
           <div>
             <p className="text-xl leading-relaxed text-neutral-800 sm:text-2xl">

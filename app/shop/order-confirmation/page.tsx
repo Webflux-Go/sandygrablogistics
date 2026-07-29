@@ -71,7 +71,7 @@ export default async function OrderConfirmationPage({
       {reference && <p className="text-xs text-neutral-400">Reference: {reference}</p>}
       <Link
         href="/shop"
-        className="mt-4 inline-flex items-center justify-center rounded-full bg-neutral-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-800"
+        className="mt-4 inline-flex items-center justify-center rounded-full bg-gold-500 px-6 py-3 text-sm font-medium text-neutral-950 transition-colors hover:bg-gold-400"
       >
         Back to shop
       </Link>

@@ -31,6 +31,11 @@ export interface Category {
   image?: ProductImage | null;
 }
 
+/** A top-level category with its subcategories resolved. */
+export interface CategoryTree extends Category {
+  children: Category[];
+}
+
 export interface Collection {
   _id: string;
   name: string;

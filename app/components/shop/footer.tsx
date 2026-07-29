@@ -43,7 +43,7 @@ export default function ShopFooter() {
                   <li key={link}>
                     <a
                       href="#"
-                      className="text-sm text-neutral-500 transition-colors hover:text-neutral-900"
+                      className="text-sm text-neutral-500 transition-colors hover:text-gold-700"
                     >
                       {link}
                     </a>
@@ -55,7 +55,7 @@ export default function ShopFooter() {
         </div>
 
         <div className="mt-12 flex flex-col gap-2 border-t border-neutral-200 pt-6 text-sm text-neutral-500 sm:flex-row sm:items-center sm:justify-between">
-          <p>&copy; 2026 Sandygrabs Co. All rights reserved.</p>
+          <p>&copy; 2026 Shop - Powered by Sandygrabs Logistics</p>
           <div className="flex gap-4">
             <a href="#" className="hover:text-neutral-900">
               Terms

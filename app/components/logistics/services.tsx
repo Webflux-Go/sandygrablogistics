@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Reveal from "../motion/reveal";
+import { WHATSAPP_QUOTE_URL } from "@/lib/contact";
 import {
   Plane,
   Zap,
@@ -52,35 +54,47 @@ export default function Services() {
     <section id="solutions" className="px-4 py-16 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-          <div className="max-w-md">
+          <Reveal direction="left" className="max-w-md">
             <h2 className="text-3xl font-medium leading-tight tracking-tight text-neutral-900 sm:text-4xl">
               Reliable solutions to streamline your supply chain
             </h2>
             <a
-              href="#contact"
-              className="mt-8 inline-flex items-center justify-center rounded-full bg-neutral-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-800"
+              href={WHATSAPP_QUOTE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex items-center justify-center rounded-full bg-gold-500 px-6 py-3 text-sm font-medium text-neutral-950 transition-all hover:bg-gold-400 hover:shadow-lg hover:shadow-gold-500/25"
             >
               Get a Quote
             </a>
-          </div>
+          </Reveal>
 
-          <div className="relative h-72 w-full overflow-hidden rounded-4xl sm:h-80 md:w-104">
+          <Reveal
+            direction="right"
+            className="group relative h-72 w-full overflow-hidden rounded-4xl sm:h-80 md:w-104"
+          >
             <Image
               src="https://images.unsplash.com/photo-1612630741022-b29ec17d013d?w=1200&q=80&auto=format&fit=crop"
               alt="Sandygrabs worker loading boxes into a delivery van"
               fill
-              className="object-cover"
+              sizes="(min-width: 768px) 26rem, 100vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
-          </div>
+          </Reveal>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-3xl border border-neutral-200 bg-neutral-200 sm:grid-cols-2 lg:grid-cols-3">
+        <Reveal
+          stagger
+          className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-3xl border border-neutral-200 bg-neutral-200 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {SERVICES.map((service) => (
-            <div key={service.title} className="bg-white p-8">
+            <div
+              key={service.title}
+              className="group bg-white p-8 transition-colors duration-300 hover:bg-neutral-50"
+            >
               <service.icon
                 size={28}
                 strokeWidth={1.5}
-                className="text-neutral-900"
+                className="text-gold-600 transition-transform duration-300 group-hover:-translate-y-1"
               />
               <h3 className="mt-5 text-lg font-medium text-neutral-900">
                 {service.title}
@@ -90,7 +104,7 @@ export default function Services() {
               </p>
             </div>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   );

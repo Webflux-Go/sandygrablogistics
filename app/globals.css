@@ -1,8 +1,37 @@
 @import "tailwindcss";
 
+@theme {
+  /* Brand gold, sampled from the Sandygrabs logo's bronze → champagne gradient. */
+  --color-gold-50: #fdf9ed;
+  --color-gold-100: #faf0d1;
+  --color-gold-200: #f4e0a4;
+  --color-gold-300: #ecca6e;
+  --color-gold-400: #e0b148;
+  --color-gold-500: #cf9a2f;
+  --color-gold-600: #b27d25;
+  --color-gold-700: #8e5e21;
+  --color-gold-800: #754c21;
+  --color-gold-900: #62401f;
+
+  /* Tailwind's stock `neutral` is a cold grey that fights the gold. Overriding the scale in
+     place re-tones every existing neutral-* utility across the site to a warm, sandy grey
+     without touching the components themselves. */
+  --color-neutral-50: #faf8f5;
+  --color-neutral-100: #f3efe8;
+  --color-neutral-200: #e6e0d5;
+  --color-neutral-300: #d2c9b9;
+  --color-neutral-400: #a89d8a;
+  --color-neutral-500: #857a68;
+  --color-neutral-600: #6b6153;
+  --color-neutral-700: #554d42;
+  --color-neutral-800: #3a342c;
+  --color-neutral-900: #221e18;
+  --color-neutral-950: #14110d;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #faf8f5;
+  --foreground: #221e18;
 }
 
 @theme inline {
@@ -12,13 +41,15 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Geist", sans-serif;
 }
 
-body {
-  font-family: "Geist", sans-serif;
+/* Smooth in-page navigation for the marketing anchors (#solutions, #founder, …). */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }

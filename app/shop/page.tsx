@@ -5,17 +5,37 @@ import LifestyleBanners from "@/app/components/shop/lifestyle-banners";
 import CatalogSection from "@/app/components/shop/catalog/catalog-section";
 import PromoBanner from "@/app/components/shop/promo-banner";
 import ShopFooter from "@/app/components/shop/footer";
+import { getCurrentUser } from "@/lib/auth/user";
 
-export default function ShopPage() {
+export default async function ShopPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string; search?: string }>;
+}) {
+  const [{ category, search }, user] = await Promise.all([
+    searchParams,
+    getCurrentUser(),
+  ]);
+
+  // With a category or search active the visitor is browsing, not landing — drop the marketing
+  // sections so the results are the whole page.
+  const isBrowsing = Boolean(category || search);
+
   return (
     <>
-      <ShopNavbar />
+      <ShopNavbar email={user?.email ?? null} />
       <main>
-        <Hero />
-        <FeaturedCollections />
-        <LifestyleBanners />
-        <CatalogSection />
-        <PromoBanner />
+        {isBrowsing ? (
+          <CatalogSection category={category} search={search} />
+        ) : (
+          <>
+            <Hero />
+            <FeaturedCollections />
+            <LifestyleBanners />
+            <CatalogSection />
+            <PromoBanner />
+          </>
+        )}
       </main>
       <ShopFooter />
     </>

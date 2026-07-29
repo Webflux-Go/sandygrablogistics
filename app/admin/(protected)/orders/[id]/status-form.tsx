@@ -49,7 +49,7 @@ export default function StatusForm({
       <button
         type="submit"
         disabled={isPending || status === current}
-        className="inline-flex items-center justify-center rounded-full bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-neutral-800 disabled:opacity-40"
+        className="inline-flex items-center justify-center rounded-full bg-gold-500 px-5 py-2.5 text-sm font-medium text-neutral-950 transition-colors hover:bg-gold-400 disabled:opacity-40"
       >
         {isPending ? "Updating…" : "Update & notify customer"}
       </button>

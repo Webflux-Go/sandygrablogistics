@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Plus } from "lucide-react";
+import Reveal from "../motion/reveal";
 
 const FAQS = [
   {
@@ -32,7 +33,7 @@ export default function Faq() {
   return (
     <section id="pricing" className="px-4 py-16 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-6xl">
-        <div className="grid gap-6 md:grid-cols-2 md:gap-16">
+        <Reveal className="grid gap-6 md:grid-cols-2 md:gap-16">
           <h2 className="text-3xl font-medium leading-tight tracking-tight text-neutral-900 sm:text-4xl">
             Get All the Details About Our Freight Solutions
           </h2>
@@ -40,9 +41,12 @@ export default function Faq() {
             Find answers to the most common questions about our freight
             services and how Sandygrabs can support your logistics needs.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="mt-12 divide-y divide-neutral-200 border-t border-neutral-200">
+        <Reveal
+          stagger
+          className="mt-12 divide-y divide-neutral-200 border-t border-neutral-200"
+        >
           {FAQS.map((faq, i) => {
             const isOpen = openIndex === i;
             return (
@@ -71,7 +75,7 @@ export default function Faq() {
               </div>
             );
           })}
-        </div>
+        </Reveal>
       </div>
     </section>
   );

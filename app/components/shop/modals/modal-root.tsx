@@ -6,7 +6,7 @@ import ProductQuickView from "./product-quick-view";
 import AuthModal from "./auth-modal";
 import CheckoutModal from "./checkout-modal";
 
-export default function ModalRoot() {
+export default function ModalRoot({ email }: { email: string | null }) {
   const { activeModal } = useModal();
 
   switch (activeModal) {
@@ -17,7 +17,8 @@ export default function ModalRoot() {
     case "auth":
       return <AuthModal />;
     case "checkout":
-      return <CheckoutModal />;
+      // Prefill the signed-in shopper's email so they don't retype it.
+      return <CheckoutModal email={email} />;
     default:
       return null;
   }

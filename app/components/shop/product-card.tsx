@@ -37,7 +37,7 @@ export default function ProductCard({ product }: { product: Product }) {
         )}
 
         {product.badge && (
-          <span className="absolute left-3 top-3 rounded-full bg-white px-2.5 py-1 text-[11px] font-medium text-neutral-700 shadow-sm">
+          <span className="absolute left-3 top-3 rounded-full bg-gold-400 px-2.5 py-1 text-[11px] font-medium text-neutral-950 shadow-sm">
             {product.badge}
           </span>
         )}
@@ -52,7 +52,9 @@ export default function ProductCard({ product }: { product: Product }) {
         onClick={() => toggleWishlist(product._id)}
         aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
         aria-pressed={wishlisted}
-        className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-neutral-600 shadow-sm transition-colors hover:text-neutral-900"
+        className={`absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-sm transition-colors ${
+          wishlisted ? "text-gold-600" : "text-neutral-500 hover:text-gold-600"
+        }`}
       >
         <Heart size={16} fill={wishlisted ? "currentColor" : "none"} />
       </button>
@@ -82,7 +84,7 @@ export default function ProductCard({ product }: { product: Product }) {
               })
             }
             disabled={product.stock <= 0}
-            className="rounded-full border border-neutral-200 px-3 py-1.5 text-xs font-medium text-neutral-700 transition-colors hover:border-neutral-900 hover:text-neutral-900 disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-full border border-neutral-200 px-3 py-1.5 text-xs font-medium text-neutral-700 transition-colors hover:border-gold-500 hover:bg-gold-500 hover:text-neutral-950 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {product.stock > 0 ? "Add" : "Sold out"}
           </button>

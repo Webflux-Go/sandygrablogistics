@@ -1,7 +1,7 @@
 import "server-only";
 import { groq } from "next-sanity";
 import { getSanityClient } from "./client";
-import type { Product, Category, Collection } from "./types";
+import type { Product, CategoryTree, Collection } from "./types";
 
 const productProjection = groq`{
   _id,
@@ -19,14 +19,26 @@ const productProjection = groq`{
 
 const featuredProductsQuery = groq`*[_type == "product" && featured == true] | order(_createdAt desc) [0...8] ${productProjection}`;
 
+// Matching the parent slug as well means selecting a top-level category ("Furniture") returns
+// everything in its subcategories too, while a subcategory slug still narrows to just itself.
 const productsQuery = groq`*[
   _type == "product"
-  && (!defined($categorySlug) || category->slug.current == $categorySlug)
+  && (
+    !defined($categorySlug)
+    || category->slug.current == $categorySlug
+    || category->parent->slug.current == $categorySlug
+  )
   && (!defined($search) || name match $search + "*")
 ] | order(_createdAt desc) ${productProjection}`;
 
-const categoriesQuery = groq`*[_type == "category"] | order(name asc) {
-  _id, name, "slug": slug.current, image
+const categoryTreeQuery = groq`*[_type == "category" && !defined(parent)] | order(order asc, name asc) {
+  _id,
+  name,
+  "slug": slug.current,
+  image,
+  "children": *[_type == "category" && parent._ref == ^._id] | order(order asc, name asc) {
+    _id, name, "slug": slug.current, image
+  }
 }`;
 
 const collectionsQuery = groq`*[_type == "collection"] | order(name asc) {
@@ -63,13 +75,14 @@ export async function getProducts(params: {
   }
 }
 
-export async function getCategories(): Promise<Category[]> {
+/** Top-level categories, each with its subcategories nested under `children`. */
+export async function getCategoryTree(): Promise<CategoryTree[]> {
   const client = getSanityClient();
   if (!client) return [];
   try {
-    return await client.fetch<Category[]>(categoriesQuery);
+    return await client.fetch<CategoryTree[]>(categoryTreeQuery);
   } catch (error) {
-    console.warn("[sanity] getCategories failed:", error);
+    console.warn("[sanity] getCategoryTree failed:", error);
     return [];
   }
 }

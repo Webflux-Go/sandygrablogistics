@@ -1,20 +1,24 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import Reveal from "../motion/reveal";
 
 function Banner({
   src,
   alt,
   label,
+  href,
   className,
 }: {
   src: string;
   alt: string;
   label: string;
+  href: string;
   className?: string;
 }) {
   return (
-    <a
-      href="#catalog"
+    <Link
+      href={href}
       className={`group relative block h-64 overflow-hidden rounded-3xl sm:h-80 ${className ?? ""}`}
     >
       <Image
@@ -31,32 +35,35 @@ function Banner({
           <ArrowUpRight size={14} />
         </span>
       </div>
-    </a>
+    </Link>
   );
 }
 
 export default function LifestyleBanners() {
   return (
     <section className="px-4 py-4 sm:px-6">
-      <div className="mx-auto flex max-w-6xl flex-col gap-5">
+      <Reveal stagger className="mx-auto flex max-w-6xl flex-col gap-5">
         <Banner
           src="https://images.unsplash.com/photo-1600210491305-7396500b5b31?w=1600&q=80&auto=format&fit=crop"
           alt="A minimalist bedroom styled with warm wood tones and soft linens"
           label="Minimalist Bedroom"
+          href="/shop?category=bedroom"
         />
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <Banner
             src="https://images.unsplash.com/photo-1658280024253-34cafdfbb002?w=1200&q=80&auto=format&fit=crop"
             alt="A dining area with a wooden table and modern chairs"
             label="Dining Area"
+            href="/shop?category=dining"
           />
           <Banner
             src="https://images.unsplash.com/photo-1673563932832-a0c9e0ed26f8?w=1200&q=80&auto=format&fit=crop"
             alt="A japandi-style living room with natural light and wooden accents"
             label="Japandi Living Room"
+            href="/shop?category=furniture"
           />
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

@@ -57,8 +57,8 @@ export default async function AdminDashboardPage({
               href={filter.value ? `/admin?status=${filter.value}` : "/admin"}
               className={`rounded-full px-4 py-2 text-sm transition-colors ${
                 isActive
-                  ? "bg-neutral-900 text-white"
-                  : "border border-neutral-200 bg-white text-neutral-600 hover:text-neutral-900"
+                  ? "bg-gold-500 text-neutral-950"
+                  : "border border-neutral-200 bg-white text-neutral-600 hover:border-gold-400 hover:text-gold-700"
               }`}
             >
               {filter.label}
@@ -68,7 +68,7 @@ export default async function AdminDashboardPage({
       </div>
 
       <div className="mt-6 overflow-x-auto rounded-2xl border border-neutral-200 bg-white">
-        <table className="w-full min-w-[44rem] text-left text-sm">
+        <table className="w-full min-w-176 text-left text-sm">
           <thead className="border-b border-neutral-200 text-xs uppercase tracking-wide text-neutral-400">
             <tr>
               <th className="px-5 py-3 font-medium">Customer</th>

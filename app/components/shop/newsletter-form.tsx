@@ -21,7 +21,7 @@ export default function NewsletterForm() {
         <button
           type="submit"
           disabled={isPending}
-          className="shrink-0 rounded-full bg-neutral-900 px-4 py-2.5 text-xs font-medium uppercase tracking-wide text-white transition-colors hover:bg-neutral-800 disabled:opacity-50"
+          className="shrink-0 rounded-full bg-gold-500 px-4 py-2.5 text-xs font-medium uppercase tracking-wide text-neutral-950 transition-colors hover:bg-gold-400 disabled:opacity-50"
         >
           {isPending ? "…" : "Submit"}
         </button>

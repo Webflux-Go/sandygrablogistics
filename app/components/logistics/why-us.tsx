@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Reveal from "../motion/reveal";
+import { WHATSAPP_QUOTE_URL } from "@/lib/contact";
 import { ShieldCheck, Globe2, Headset } from "lucide-react";
 
 const REASONS = [
@@ -32,30 +34,32 @@ export default function WhyUs() {
           fill
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/50 to-black/20" />
+        <div className="absolute inset-0 bg-linear-to-r from-neutral-950/90 via-neutral-950/60 to-neutral-950/25" />
 
         <div className="relative flex flex-col gap-10 p-8 sm:p-12 md:min-h-128 md:flex-row md:items-end md:justify-between lg:p-16">
-          <div className="max-w-sm">
+          <Reveal direction="left" className="max-w-sm">
             <h2 className="text-3xl font-medium leading-tight tracking-tight text-white sm:text-4xl">
               Why Our Clients Trust Sandygrabs for Their Logistics Needs
             </h2>
             <a
-              href="#contact"
-              className="mt-8 inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-neutral-900 transition-colors hover:bg-white/90"
+              href={WHATSAPP_QUOTE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex items-center justify-center rounded-full bg-gold-400 px-6 py-3 text-sm font-medium text-neutral-950 transition-all hover:bg-gold-300 hover:shadow-lg hover:shadow-gold-500/30"
             >
               Get a Quote
             </a>
-          </div>
+          </Reveal>
 
-          <div className="flex w-full max-w-sm flex-col gap-4">
+          <Reveal stagger direction="right" className="flex w-full max-w-sm flex-col gap-4">
             {REASONS.map((reason) => (
               <div
                 key={reason.title}
-                className="rounded-2xl bg-white p-5 shadow-lg"
+                className="rounded-2xl bg-white p-5 shadow-lg transition-transform duration-300 hover:-translate-y-1"
               >
                 <div className="flex items-start gap-4">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-neutral-100">
-                    <reason.icon size={20} className="text-neutral-900" />
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gold-100">
+                    <reason.icon size={20} className="text-gold-700" />
                   </span>
                   <div>
                     <h3 className="text-sm font-semibold text-neutral-900">
@@ -68,7 +72,7 @@ export default function WhyUs() {
                 </div>
               </div>
             ))}
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>
