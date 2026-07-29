@@ -33,7 +33,7 @@ export default function Hero() {
           <div className="flex flex-col gap-8 px-4 pb-10 pt-24 sm:px-6 sm:pb-14 sm:pt-40 md:flex-row md:items-end md:justify-between md:pt-56">
             <Reveal immediate delay={0.15}>
               <h1 className="max-w-xl text-4xl font-semibold leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl">
-                Freight Solutions With On-Time Deliveries
+                Turkey&apos;s Trusted Sourcing & Shipping Partner
               </h1>
             </Reveal>
 
