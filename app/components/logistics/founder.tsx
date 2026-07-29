@@ -13,7 +13,7 @@ export default function Founder() {
         >
           {/* TODO: replace with a real photo of the founder. */}
           <Image
-            src="/sandygrabsceo.jpeg"
+            src="/founder.jpeg"
             alt="Founder and CEO of Sandygrabs Logistics"
             fill
             sizes="(min-width: 768px) 50vw, 100vw"
@@ -29,10 +29,7 @@ export default function Founder() {
           <Quote size={36} strokeWidth={1.5} className="mt-6 text-gold-400" />
 
           <blockquote className="mt-4 text-2xl font-medium leading-snug tracking-tight text-neutral-900 sm:text-3xl">
-            Scammed as a new businesswoman in Turkey, a shipping company took my
-            money and almost broke me. This pain birthed SandyGrabs Logistics.
-            Learn to ship yourself, because your business vision is worth
-            fighting for.
+         When I started sourcing products in Turkey, I was scammed by a shipping company and nearly lost everything. That painful experience inspired me to build Sandygrabs Logistics a company founded on honesty, transparency, and protecting other businesses from making the same costly mistakes.
           </blockquote>
 
           <div className="mt-8">
@@ -47,7 +44,7 @@ export default function Founder() {
             rel="noopener noreferrer"
             className="mt-8 inline-flex w-fit items-center justify-center rounded-full bg-gold-500 px-6 py-3 text-sm font-medium text-neutral-950 transition-all hover:bg-gold-400 hover:shadow-lg hover:shadow-gold-500/25"
           >
-            Talk to Us
+            Connect with me
           </a>
         </Reveal>
       </div>
