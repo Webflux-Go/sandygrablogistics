@@ -1,5 +1,6 @@
 import Reveal from "../motion/reveal";
-import { WHATSAPP_QUOTE_URL } from "@/lib/contact";
+import { FaWhatsapp } from "react-icons/fa6";
+import { WHATSAPP_CHAT_URL } from "@/lib/contact";
 
 export default function Cta() {
   return (
@@ -18,12 +19,13 @@ export default function Cta() {
             See Our Services
           </a>
           <a
-            href={WHATSAPP_QUOTE_URL}
+            href={WHATSAPP_CHAT_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full bg-gold-400 px-6 py-3 text-sm font-medium text-neutral-950 transition-all hover:bg-gold-300 hover:shadow-lg hover:shadow-gold-500/30"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-gold-400 px-6 py-3 text-sm font-medium text-neutral-950 transition-all hover:bg-gold-300 hover:shadow-lg hover:shadow-gold-500/30"
           >
-            Get a Quote
+            <FaWhatsapp size={18} />
+            WhatsApp Us
           </a>
         </div>
       </Reveal>

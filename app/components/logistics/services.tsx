@@ -1,51 +1,38 @@
 import Image from "next/image";
 import Reveal from "../motion/reveal";
 import { WHATSAPP_QUOTE_URL } from "@/lib/contact";
-import {
-  Plane,
-  Zap,
-  Truck,
-  Warehouse,
-  ClipboardCheck,
-  ShieldCheck,
-} from "lucide-react";
+import { Plane, Ship, BadgeCheck, Globe, MapPin } from "lucide-react";
 
 const SERVICES = [
   {
     icon: Plane,
     title: "Air Freight",
+    // The transit window is the thing customers actually compare on, so it gets its own
+    // prominent line rather than being buried in the description.
+    detail: "4–7 Days",
     description:
-      "Fast and secure air freight solutions to ensure your goods reach their destination on time.",
+      "The fast lane for urgent and high-value cargo, landing in under a week.",
   },
   {
-    icon: Zap,
-    title: "Express Freight",
+    icon: Ship,
+    title: "Sea Freight",
+    detail: "45 Days",
     description:
-      "Fast and reliable express freight services for quick delivery without compromising safety.",
+      "The economical route for bulk and heavy shipments where timing is flexible.",
   },
   {
-    icon: Truck,
-    title: "Land Freight",
+    icon: BadgeCheck,
+    title: "Factory Inspection",
+    detail: "Before dispatch",
     description:
-      "Efficient land transportation for both local and international deliveries, ensuring the best rates.",
+      "We check your goods at the source, so faults are caught before they ship — not after.",
   },
   {
-    icon: Warehouse,
-    title: "Warehousing",
+    icon: Globe,
+    title: "Worldwide Shipping",
+    detail: "Any destination",
     description:
-      "Flexible and secure storage for your goods, ensuring safe handling and easy access.",
-  },
-  {
-    icon: ClipboardCheck,
-    title: "Custom Clearance",
-    description:
-      "Expert handling of customs procedures to ensure a smooth and hassle-free shipping experience.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Freight Insurance",
-    description:
-      "Comprehensive freight insurance to protect your cargo against any unforeseen risks during transit.",
+      "Wherever your business is, we route your cargo there and handle the paperwork.",
   },
 ];
 
@@ -55,7 +42,11 @@ export default function Services() {
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
           <Reveal direction="left" className="max-w-md">
-            <h2 className="text-3xl font-medium leading-tight tracking-tight text-neutral-900 sm:text-4xl">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-gold-200 bg-gold-50 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-gold-700">
+              <MapPin size={14} strokeWidth={2} />
+              Based in Turkey
+            </span>
+            <h2 className="mt-5 text-3xl font-medium leading-tight tracking-tight text-neutral-900 sm:text-4xl">
               Reliable solutions to streamline your supply chain
             </h2>
             <a
@@ -73,8 +64,8 @@ export default function Services() {
             className="group relative h-72 w-full overflow-hidden rounded-4xl sm:h-80 md:w-104"
           >
             <Image
-              src="https://images.unsplash.com/photo-1612630741022-b29ec17d013d?w=1200&q=80&auto=format&fit=crop"
-              alt="Sandygrabs worker loading boxes into a delivery van"
+              src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=1200&q=80&auto=format&fit=crop"
+              alt="Aerial view of a container port with cargo stacked beside loading cranes"
               fill
               sizes="(min-width: 768px) 26rem, 100vw"
               className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -84,7 +75,7 @@ export default function Services() {
 
         <Reveal
           stagger
-          className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-3xl border border-neutral-200 bg-neutral-200 sm:grid-cols-2 lg:grid-cols-3"
+          className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-3xl border border-neutral-200 bg-neutral-200 sm:grid-cols-2 lg:grid-cols-4"
         >
           {SERVICES.map((service) => (
             <div
@@ -99,7 +90,10 @@ export default function Services() {
               <h3 className="mt-5 text-lg font-medium text-neutral-900">
                 {service.title}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-neutral-500">
+              <p className="mt-1 text-sm font-semibold text-gold-600">
+                {service.detail}
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-neutral-500">
                 {service.description}
               </p>
             </div>

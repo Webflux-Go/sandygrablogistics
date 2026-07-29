@@ -23,10 +23,10 @@ const COLUMNS = [
 ];
 
 const SOCIALS = [
-  { icon: FaInstagram, href: "#", label: "Instagram" },
-  { icon: FaXTwitter, href: "#", label: "X" },
+  { icon: FaInstagram, href: "https://www.instagram.com/sandygrabs_logistics", label: "Instagram" },
+  { icon: FaXTwitter, href: "https://www.x.com/sandygrabs_logistics", label: "X" },
   { icon: FaLinkedin, href: "#", label: "LinkedIn" },
-  { icon: FaFacebook, href: "#", label: "Facebook" },
+  { icon: FaFacebook, href: "https://www.facebook.com/sandygrabs_logistics", label: "Facebook" },
 ];
 
 export default function Footer() {

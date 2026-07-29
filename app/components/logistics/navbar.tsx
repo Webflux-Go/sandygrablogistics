@@ -3,8 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, Store, X } from "lucide-react";
-import { WHATSAPP_QUOTE_URL } from "@/lib/contact";
+import { Menu, Store } from "lucide-react";
+import MobileMenu from "./mobile-menu";
 
 const LINKS = [
   { href: "#home", label: "Home" },
@@ -53,43 +53,21 @@ export default function Navbar() {
             Shop
           </Link>
 
+          {/* The overlay covers this button and carries its own close control, so it only ever
+              needs to show the "open" state. */}
           <button
             type="button"
-            onClick={() => setOpen((v) => !v)}
+            onClick={() => setOpen(true)}
             className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white md:hidden"
-            aria-label="Toggle menu"
+            aria-label="Open menu"
             aria-expanded={open}
           >
-            {open ? <X size={20} /> : <Menu size={20} />}
+            <Menu size={20} />
           </button>
         </div>
       </div>
 
-      {/* Anchored to the header's bottom edge rather than a fixed offset, so the panel can't
-          overlap the logo row as the logo scales between breakpoints. */}
-      {open && (
-        <div className="absolute inset-x-4 top-full z-30 flex flex-col gap-1 rounded-2xl border border-white/15 bg-neutral-900/95 p-4 shadow-xl backdrop-blur-md sm:inset-x-6 md:hidden">
-          {LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="rounded-lg px-3 py-2.5 text-sm text-white/90 hover:bg-white/10"
-            >
-              {link.label}
-            </a>
-          ))}
-          <a
-            href={WHATSAPP_QUOTE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setOpen(false)}
-            className="mt-2 rounded-full bg-gold-400 px-4 py-2.5 text-center text-sm font-medium text-neutral-950"
-          >
-            Get a Quote
-          </a>
-        </div>
-      )}
+      {open && <MobileMenu links={LINKS} onClose={() => setOpen(false)} />}
     </header>
   );
 }
