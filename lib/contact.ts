@@ -13,7 +13,84 @@ export const WHATSAPP_CHAT_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encode
 )}`;
 
 // TODO(sandygrabs): confirm this mailbox exists — assumed from the sandygrabslogistics.com domain.
-export const SUPPORT_EMAIL = "support@sandygrabslogistics.com";
+export const SUPPORT_EMAIL = "Sandygrabs@fenotenaiv.resend.app";
+
+/**
+ * Shared by both footers so the two can't drift apart.
+ *
+ * The share URLs these came from carried per-share tracking parameters (`utm_source=share_via`,
+ * TikTok's `_r`/`_t`); those are stripped here — they identify the share session, not the
+ * profile, and don't belong in a link served to every visitor.
+ */
+export const SOCIALS = [
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/sandygrabs_logistics",
+  },
+  {
+    label: "TikTok",
+    href: "https://www.tiktok.com/@sandygrabslogistics",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/sandygrabs-logistics-sandygrabs-686163232",
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/sandygrabs_logistics",
+  },
+  {
+    label: "X",
+    href: "https://www.x.com/sandygrabs_logistics",
+  },
+] as const;
+
+export interface Location {
+  label: string;
+  /** Short qualifier under the label — what this address is for. */
+  kind: string;
+  lines: string[];
+  mapUrl: string;
+}
+
+function mapsUrl(address: string) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    address
+  )}`;
+}
+
+const LAGOS_ADDRESS =
+  "No 7, Jaiyeola Ajatta Street, off Ekundayo Adetunji Babaniji Street, Opposite Green Point Hotel, off Fatai Irawo Street, Airport Junction, Ajao Estate, Lagos";
+
+const TURKEY_ADDRESS =
+  "İbibik Sokak No 2, Hürriyet Mahallesi, Kıraç, Esenyurt, Istanbul, Turkey";
+
+export const LOCATIONS: Location[] = [
+  {
+    label: "Lagos, Nigeria",
+    kind: "Warehouse & pickup",
+    // Broken at the street boundaries so this long address stays readable on a phone rather
+    // than reflowing into an unreadable block.
+    lines: [
+      "No 7, Jaiyeola Ajatta Street,",
+      "off Ekundayo Adetunji Babaniji Street,",
+      "Opposite Green Point Hotel,",
+      "off Fatai Irawo Street, Airport Junction,",
+      "Ajao Estate, Lagos.",
+    ],
+    mapUrl: mapsUrl(LAGOS_ADDRESS),
+  },
+  {
+    label: "Istanbul, Turkey",
+    kind: "Sourcing office",
+    lines: [
+      "İbibik Sokak No 2,",
+      "Hürriyet Mahallesi, Kıraç,",
+      "Esenyurt, Istanbul, Turkey.",
+    ],
+    mapUrl: mapsUrl(TURKEY_ADDRESS),
+  },
+];
 
 /**
  * Error-page "email us" link. The error digest goes in the body so support can match the report

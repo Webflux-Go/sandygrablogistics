@@ -1,5 +1,8 @@
 import Image from "next/image";
 import NewsletterForm from "./newsletter-form";
+import FooterLocations from "../footer-locations";
+import SocialLinks from "../social-links";
+import { SOCIALS } from "@/lib/contact";
 
 const COLUMNS = [
   {
@@ -9,10 +12,6 @@ const COLUMNS = [
   {
     title: "Product",
     links: ["Desks", "Tables", "Chairs", "Lamps"],
-  },
-  {
-    title: "Connect",
-    links: ["Instagram", "LinkedIn", "Twitter", "Facebook"],
   },
 ];
 
@@ -33,6 +32,27 @@ export default function ShopFooter() {
               Subscribe for newsletter
             </p>
             <NewsletterForm />
+            <SocialLinks className="mt-6" />
+          </div>
+
+          {/* Kept as text links rather than a second icon row — the icons already sit under the
+              newsletter, and this column carries the platform names for anyone scanning. */}
+          <div>
+            <h3 className="text-sm font-semibold text-neutral-900">Connect</h3>
+            <ul className="mt-4 flex flex-col gap-3">
+              {SOCIALS.map((social) => (
+                <li key={social.label}>
+                  <a
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-neutral-500 transition-colors hover:text-gold-700"
+                  >
+                    {social.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {COLUMNS.map((column) => (
@@ -53,6 +73,7 @@ export default function ShopFooter() {
             </div>
           ))}
         </div>
+
 
         <div className="mt-12 flex flex-col gap-2 border-t border-neutral-200 pt-6 text-sm text-neutral-500 sm:flex-row sm:items-center sm:justify-between">
           <p>&copy; 2026 Shop - Powered by Sandygrabs Logistics</p>

@@ -1,6 +1,7 @@
 import Hero from "./components/logistics/hero";
-import Stats from "./components/logistics/stats";
+import Advantages from "./components/logistics/advantages";
 import Services from "./components/logistics/services";
+import Locations from "./components/locations";
 import Founder from "./components/logistics/founder";
 import Gallery from "./components/logistics/gallery";
 import WhyUs from "./components/logistics/why-us";
@@ -14,12 +15,13 @@ export default function Home() {
     <>
       <main>
         <Hero />
-        <Stats />
+        <Advantages />
         <Services />
         <Founder />
         <Gallery />
         <WhyUs />
         <Testimonials />
+        <Locations />
         <Faq />
         <Cta />
       </main>

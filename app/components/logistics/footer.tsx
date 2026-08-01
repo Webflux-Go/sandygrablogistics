@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Bodoni_Moda } from "next/font/google";
-import { FaFacebook, FaInstagram, FaLinkedin, FaXTwitter } from "react-icons/fa6";
+import FooterLocations from "../footer-locations";
+import SocialLinks from "../social-links";
 
 const bodoniModa = Bodoni_Moda({
   subsets: ["latin"],
@@ -22,13 +23,6 @@ const COLUMNS = [
   },
 ];
 
-const SOCIALS = [
-  { icon: FaInstagram, href: "https://www.instagram.com/sandygrabs_logistics", label: "Instagram" },
-  { icon: FaXTwitter, href: "https://www.x.com/sandygrabs_logistics", label: "X" },
-  { icon: FaLinkedin, href: "#", label: "LinkedIn" },
-  { icon: FaFacebook, href: "https://www.facebook.com/sandygrabs_logistics", label: "Facebook" },
-];
-
 export default function Footer() {
   return (
     <footer className="mt-auto border-t border-neutral-200 px-4 pt-12 sm:px-6">
@@ -47,18 +41,7 @@ export default function Footer() {
               chain, today and every day.
             </p>
 
-            <div className="mt-6 flex items-center gap-3">
-              {SOCIALS.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  aria-label={social.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 text-neutral-600 transition-colors hover:border-gold-500 hover:bg-gold-50 hover:text-gold-700"
-                >
-                  <social.icon size={16} />
-                </a>
-              ))}
-            </div>
+            <SocialLinks className="mt-6" />
           </div>
 
           {COLUMNS.map((column) => (
@@ -81,6 +64,10 @@ export default function Footer() {
             </div>
           ))}
         </div>
+
+        {/* <div className="mt-12 border-t border-neutral-200 pt-10">
+          <FooterLocations />
+        </div> */}
 
         <div className="mt-16 border-t border-neutral-200 py-8 text-center sm:py-10">
           <p

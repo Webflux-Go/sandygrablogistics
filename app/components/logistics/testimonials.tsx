@@ -1,39 +1,36 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
-import { ArrowLeft, ArrowRight, Quote } from "lucide-react";
+import { ArrowLeft, ArrowRight, Play } from "lucide-react";
+import Reveal from "../motion/reveal";
 
+// TODO(sandygrabs): replace `name` and `caption` with the real customer details for each clip —
+// these are deliberately generic rather than invented, since these are real people on camera.
+//
+// Hosted on Streamable, so the ~35MB of source video never ships with the site and Streamable
+// handles transcoding, adaptive quality and the poster frame. `id` is the code from the share
+// URL: https://streamable.com/<id> → embedded as https://streamable.com/e/<id>.
 const TESTIMONIALS = [
   {
-    quote:
-      "As a business owner, reliability is everything. Sandygrabs has been our trusted logistics partner for years, making sure our shipments arrive on time and in perfect condition. Their attention to detail truly sets them apart.",
-    name: "Amara Johnson",
-    role: "CEO, TechGear Solutions",
-    avatar:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&q=80&auto=format&fit=crop&crop=faces",
+    id: "o0mxdh",
+    name: "Customer Testimonial",
+    caption: "On sourcing and delivery with Sandygrabs",
   },
   {
-    quote:
-      "We switched to Sandygrabs for our cross-border shipments and never looked back. Clear communication, fair pricing, and shipments that consistently arrive when promised.",
-    name: "Daniel Okafor",
-    role: "Operations Lead, Northline Retail",
-    avatar:
-      "https://images.unsplash.com/photo-1614786269829-d24616faf56d?w=200&q=80&auto=format&fit=crop&crop=faces",
+    id: "qd0vkx",
+    name: "Customer Testimonial",
+    caption: "On sourcing and delivery with Sandygrabs",
   },
   {
-    quote:
-      "Their warehousing and customs clearance team took a huge operational burden off our plate. Sandygrabs feels like an extension of our own supply chain team.",
-    name: "Priya Natarajan",
-    role: "Founder, Loop Home Goods",
-    avatar:
-      "https://images.unsplash.com/photo-1611432579402-7037e3e2c1e4?w=200&q=80&auto=format&fit=crop&crop=faces",
+    id: "0luj94",
+    name: "Customer Testimonial",
+    caption: "On sourcing and delivery with Sandygrabs",
   },
 ];
 
 export default function Testimonials() {
   const [index, setIndex] = useState(0);
-  const testimonial = TESTIMONIALS[index];
+  const active = TESTIMONIALS[index];
 
   const goPrev = () =>
     setIndex((i) => (i - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
@@ -42,10 +39,15 @@ export default function Testimonials() {
   return (
     <section id="testimonials" className="px-4 py-16 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-6xl">
-        <div className="flex items-center justify-between gap-6">
-          <h2 className="text-3xl font-medium leading-tight tracking-tight text-neutral-900 sm:text-4xl">
-            Why Businesses Trust Sandygrabs for Their Freight
-          </h2>
+        <Reveal className="flex items-center justify-between gap-6">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold-600">
+              In Their Words
+            </p>
+            <h2 className="mt-3 text-3xl font-medium leading-tight tracking-tight text-neutral-900 sm:text-4xl">
+              Why Businesses Trust Sandygrabs for Their Freight
+            </h2>
+          </div>
 
           <div className="flex shrink-0 gap-2">
             <button
@@ -65,33 +67,51 @@ export default function Testimonials() {
               <ArrowRight size={18} />
             </button>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="mt-12 flex flex-col gap-8 rounded-4xl border border-neutral-200 p-8 sm:p-12 md:flex-row md:items-start">
-          <Quote
-            size={40}
-            strokeWidth={1.5}
-            className="shrink-0 text-gold-400"
-          />
-          <div>
-            <p className="text-xl leading-relaxed text-neutral-800 sm:text-2xl">
-              &ldquo;{testimonial.quote}&rdquo;
+        <div className="mt-12 flex flex-col items-center">
+          {/* All three clips are portrait 9:16 — one was shot landscape but carries a rotation
+              flag, and Streamable's transcode resolves it upright. */}
+          <div className="aspect-[9/16] w-full max-w-sm overflow-hidden rounded-4xl bg-neutral-950">
+            {/* Only the active clip is mounted, so the other two are never requested, and the
+                `key` forces a remount on switch — which is what stops the previous clip's audio
+                instead of leaving it playing behind the new one. */}
+            <iframe
+              key={active.id}
+              src={`https://streamable.com/e/${active.id}`}
+              title={`${active.name} — ${active.caption}`}
+              allow="fullscreen; encrypted-media; picture-in-picture"
+              allowFullScreen
+              loading="lazy"
+              className="h-full w-full border-0"
+            />
+          </div>
+
+          <div className="mt-6 flex flex-col items-center gap-1 text-center">
+            <p className="text-sm font-semibold text-neutral-900">
+              {active.name}
             </p>
-            <div className="mt-8 flex items-center gap-4">
-              <Image
-                src={testimonial.avatar}
-                alt={testimonial.name}
-                width={48}
-                height={48}
-                className="h-12 w-12 rounded-full object-cover"
-              />
-              <div>
-                <p className="text-sm font-semibold text-neutral-900">
-                  {testimonial.name}
-                </p>
-                <p className="text-sm text-neutral-500">{testimonial.role}</p>
-              </div>
-            </div>
+            <p className="text-sm text-neutral-500">{active.caption}</p>
+          </div>
+
+          <div className="mt-6 flex items-center gap-2">
+            {TESTIMONIALS.map((testimonial, i) => (
+              <button
+                key={testimonial.id}
+                type="button"
+                onClick={() => setIndex(i)}
+                aria-label={`Play testimonial ${i + 1}`}
+                aria-current={i === index}
+                className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+                  i === index
+                    ? "bg-gold-500 text-neutral-950"
+                    : "bg-neutral-100 text-neutral-500 hover:bg-gold-50 hover:text-gold-700"
+                }`}
+              >
+                <Play size={11} />
+                {i + 1}
+              </button>
+            ))}
           </div>
         </div>
       </div>

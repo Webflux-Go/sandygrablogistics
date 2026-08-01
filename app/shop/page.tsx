@@ -5,6 +5,7 @@ import LifestyleBanners from "@/app/components/shop/lifestyle-banners";
 import HowItWorks from "@/app/components/shop/how-it-works";
 import CatalogSection from "@/app/components/shop/catalog/catalog-section";
 import PromoBanner from "@/app/components/shop/promo-banner";
+import Locations from "@/app/components/locations";
 import ShopFooter from "@/app/components/shop/footer";
 import { getCurrentUser } from "@/lib/auth/user";
 
@@ -35,6 +36,7 @@ export default async function ShopPage({
             <LifestyleBanners />
             <HowItWorks />
             <CatalogSection />
+            <Locations />
             <PromoBanner />
           </>
         )}

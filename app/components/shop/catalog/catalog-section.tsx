@@ -1,5 +1,5 @@
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { getCategoryTree, getProducts } from "@/lib/sanity/queries";
+import { getCategories, getProducts } from "@/lib/sanity/queries";
 import CatalogClient from "./catalog-client";
 import CategorySidebar from "./category-sidebar";
 import CategoryTiles from "./category-tiles";
@@ -13,23 +13,17 @@ export default async function CatalogSection({
   search?: string;
 }) {
   const queryClient = new QueryClient();
-  const categories = await getCategoryTree();
+  const categories = await getCategories();
 
   await queryClient.prefetchQuery({
     queryKey: ["products", { categorySlug: category ?? null, search: search ?? null }],
     queryFn: () => getProducts({ categorySlug: category, search }),
   });
 
-  // Whether `category` is a top-level group or one of its children, surface that group's
-  // subcategories — so landing on /shop?category=sofas still shows its siblings.
-  const activeGroup =
-    categories.find((group) => group.slug === category) ??
-    categories.find((group) => group.children.some((child) => child.slug === category));
-
-  const activeLeaf = activeGroup?.children.find((child) => child.slug === category);
+  const activeCategory = categories.find((item) => item.slug === category);
   const heading = search
     ? `Results for “${search}”`
-    : (activeLeaf?.name ?? activeGroup?.name ?? "Browse Our Catalog");
+    : (activeCategory?.name ?? "Browse Our Catalog");
 
   return (
     <section id="catalog" className="px-4 py-16 sm:px-6 sm:py-24">
@@ -41,25 +35,15 @@ export default async function CatalogSection({
           <SearchInput category={category} initialSearch={search} />
         </div>
 
-        {/* Inside a group, tile its subcategories; at the top level, tile the groups themselves
-            so there's always a visual way in. */}
-        {activeGroup && activeGroup.children.length > 0 ? (
+        {/* Always tiled, with the current one marked — so there's a visual way to switch
+            category from inside a category, not just from the landing view. */}
+        {categories.length > 0 && (
           <div className="mt-10">
             <p className="mb-4 text-xs font-medium uppercase tracking-wide text-neutral-400">
-              Shop {activeGroup.name} by category
+              Shop by category
             </p>
-            <CategoryTiles categories={activeGroup.children} activeSlug={category} />
+            <CategoryTiles categories={categories} activeSlug={category} />
           </div>
-        ) : (
-          !category &&
-          categories.length > 0 && (
-            <div className="mt-10">
-              <p className="mb-4 text-xs font-medium uppercase tracking-wide text-neutral-400">
-                Shop by category
-              </p>
-              <CategoryTiles categories={categories} />
-            </div>
-          )
         )}
 
         <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-[14rem_1fr]">
