@@ -3,7 +3,7 @@ import { Resend } from "resend";
 
 const apiKey = process.env.RESEND_API_KEY;
 
-export const emailFrom = process.env.EMAIL_FROM || "";
+export const emailFrom = process.env.EMAIL_FROM || "noreply@sandygrabslogistics.com";
 export const adminAlertEmail = process.env.ADMIN_ALERT_EMAIL || "";
 
 let client: Resend | null | undefined;
