@@ -16,21 +16,23 @@ const cartSlice = createSlice({
       action: PayloadAction<{ item: Omit<CartItem, "quantity">; quantity?: number }>
     ) => {
       const { item, quantity = 1 } = action.payload;
-      const existing = state.items.find((i) => i.productId === item.productId);
+      // Matched on lineId, not productId — the same product with a different set of add-ons
+      // is a separate line, and must not merge into an existing one at the wrong price.
+      const existing = state.items.find((i) => i.lineId === item.lineId);
       if (existing) {
         existing.quantity += quantity;
       } else {
         state.items.push({ ...item, quantity });
       }
     },
-    removeItem: (state, action: PayloadAction<{ productId: string }>) => {
-      state.items = state.items.filter((i) => i.productId !== action.payload.productId);
+    removeItem: (state, action: PayloadAction<{ lineId: string }>) => {
+      state.items = state.items.filter((i) => i.lineId !== action.payload.lineId);
     },
     setQuantity: (
       state,
-      action: PayloadAction<{ productId: string; quantity: number }>
+      action: PayloadAction<{ lineId: string; quantity: number }>
     ) => {
-      const item = state.items.find((i) => i.productId === action.payload.productId);
+      const item = state.items.find((i) => i.lineId === action.payload.lineId);
       if (item) item.quantity = Math.max(1, action.payload.quantity);
     },
     clear: (state) => {

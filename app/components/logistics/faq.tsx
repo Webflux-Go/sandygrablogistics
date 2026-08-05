@@ -3,29 +3,7 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import Reveal from "../motion/reveal";
-
-const FAQS = [
-  {
-    question: "What types of freight services do you offer?",
-    answer:
-      "We provide comprehensive freight services, including air, sea, and land transportation, as well as warehousing, customs clearance, and cargo insurance.",
-  },
-  {
-    question: "How do I track my shipment?",
-    answer:
-      "Once your shipment is confirmed, you'll receive a tracking number and link so you can monitor its status in real time, from pickup to delivery.",
-  },
-  {
-    question: "Do you offer international shipping?",
-    answer:
-      "Yes. Our global network of partners lets us handle customs, documentation, and delivery to major markets worldwide.",
-  },
-  {
-    question: "How can I request a shipping quote?",
-    answer:
-      "Fill out the Get a Quote form with your shipment details, and our team will get back to you with pricing within one business day.",
-  },
-];
+import { FAQS } from "@/lib/faqs";
 
 export default function Faq() {
   const [openIndex, setOpenIndex] = useState(0);

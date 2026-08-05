@@ -4,6 +4,7 @@ import { randomUUID } from "crypto";
 import { getProductById } from "@/lib/sanity/queries";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import { initTransaction } from "@/lib/paystack/client";
+import { absoluteUrl } from "@/lib/site-url";
 import type { CartItem } from "@/types/cart";
 import type { CheckoutContactInfo } from "@/types/order";
 
@@ -28,10 +29,31 @@ export async function createCheckoutSession(
     cartItems.map(async (item) => {
       const product = await getProductById(item.productId);
       if (!product || product.stock <= 0) return null;
+
+      // Add-ons are re-priced the same way: the client sends only which keys were chosen, and
+      // every price comes from Sanity. An unknown key means the product's add-ons changed since
+      // this cart was filled, so the line is rejected rather than silently priced without it.
+      const available = product.addOns ?? [];
+      const selected = [];
+
+      for (const chosen of item.addOns ?? []) {
+        const match = available.find((addOn) => addOn._key === chosen.key);
+        if (!match) return null;
+        selected.push({ key: match._key, name: match.name, price: match.price });
+      }
+
+      const unitPrice =
+        product.price + selected.reduce((sum, addOn) => sum + addOn.price, 0);
+
       return {
         productId: item.productId,
-        name: product.name,
-        price: product.price,
+        // Add-ons are appended to the snapshotted name so the order record, the confirmation
+        // email and the admin table all show what was actually bought without extra plumbing.
+        name:
+          selected.length > 0
+            ? `${product.name} (+ ${selected.map((a) => a.name).join(", ")})`
+            : product.name,
+        price: unitPrice,
         quantity: item.quantity,
       };
     })
@@ -88,14 +110,12 @@ export async function createCheckoutSession(
     return { error: "Could not save your order items. Please try again." };
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-
   try {
     const transaction = await initTransaction({
       email: contact.email,
       amountKobo: totalAmount,
       reference,
-      callbackUrl: `${siteUrl}/api/paystack/callback`,
+      callbackUrl: absoluteUrl("/api/paystack/callback"),
       metadata: { orderId: order.id },
     });
 

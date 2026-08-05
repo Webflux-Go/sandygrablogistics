@@ -10,6 +10,18 @@ export interface CategoryRef {
   slug: string;
 }
 
+/**
+ * An optional extra a shopper can add to a product, adding `price` on top of the base price.
+ * `_key` is Sanity's stable per-array-member id — it's what the cart and the server-side
+ * re-pricing use to identify a selection, since names can be edited.
+ */
+export interface AddOn {
+  _key: string;
+  name: string;
+  price: number;
+  description?: string | null;
+}
+
 export interface Product {
   _id: string;
   name: string;
@@ -22,6 +34,7 @@ export interface Product {
   stock: number;
   featured: boolean;
   category?: CategoryRef | null;
+  addOns?: AddOn[] | null;
 }
 
 export interface Category {

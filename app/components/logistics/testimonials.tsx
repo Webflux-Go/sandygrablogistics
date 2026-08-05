@@ -7,26 +7,30 @@ import Reveal from "../motion/reveal";
 // TODO(sandygrabs): replace `name` and `caption` with the real customer details for each clip —
 // these are deliberately generic rather than invented, since these are real people on camera.
 //
-// Hosted on Streamable, so the ~35MB of source video never ships with the site and Streamable
-// handles transcoding, adaptive quality and the poster frame. `id` is the code from the share
-// URL: https://streamable.com/<id> → embedded as https://streamable.com/e/<id>.
+// Hosted on Vimeo, so the ~35MB of source video never ships with the site and Vimeo handles
+// transcoding, adaptive quality and the poster frame. `id` is the numeric video id from the
+// embed URL. The query string suppresses Vimeo's own title/byline/portrait chrome so the player
+// is just the video.
 const TESTIMONIALS = [
   {
-    id: "o0mxdh",
+    id: "1215711701", // VID-20260729-WA0021 — 43s
     name: "Customer Testimonial",
     caption: "On sourcing and delivery with Sandygrabs",
   },
   {
-    id: "qd0vkx",
+    id: "1215711699", // VID-20260729-WA0022 — 118s
     name: "Customer Testimonial",
     caption: "On sourcing and delivery with Sandygrabs",
   },
   {
-    id: "0luj94",
+    id: "1215711702", // VID-20260729-WA0020 — 129s
     name: "Customer Testimonial",
     caption: "On sourcing and delivery with Sandygrabs",
   },
 ];
+
+const PLAYER_PARAMS =
+  "title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479";
 
 export default function Testimonials() {
   const [index, setIndex] = useState(0);
@@ -70,17 +74,18 @@ export default function Testimonials() {
         </Reveal>
 
         <div className="mt-12 flex flex-col items-center">
-          {/* All three clips are portrait 9:16 — one was shot landscape but carries a rotation
-              flag, and Streamable's transcode resolves it upright. */}
+          {/* Vimeo reports all three as portrait (240x426) — one was shot landscape but carries
+              a rotation flag, and the transcode resolves it upright. */}
           <div className="aspect-[9/16] w-full max-w-sm overflow-hidden rounded-4xl bg-neutral-950">
             {/* Only the active clip is mounted, so the other two are never requested, and the
                 `key` forces a remount on switch — which is what stops the previous clip's audio
                 instead of leaving it playing behind the new one. */}
             <iframe
               key={active.id}
-              src={`https://streamable.com/e/${active.id}`}
+              src={`https://player.vimeo.com/video/${active.id}?${PLAYER_PARAMS}`}
               title={`${active.name} — ${active.caption}`}
-              allow="fullscreen; encrypted-media; picture-in-picture"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
               loading="lazy"
               className="h-full w-full border-0"

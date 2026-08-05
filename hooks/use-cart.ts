@@ -13,12 +13,12 @@ export function useCart() {
     [dispatch]
   );
   const remove = useCallback(
-    (productId: string) => dispatch(removeItem({ productId })),
+    (lineId: string) => dispatch(removeItem({ lineId })),
     [dispatch]
   );
   const updateQuantity = useCallback(
-    (productId: string, quantity: number) =>
-      dispatch(setQuantity({ productId, quantity })),
+    (lineId: string, quantity: number) =>
+      dispatch(setQuantity({ lineId, quantity })),
     [dispatch]
   );
   const clearCart = useCallback(() => dispatch(clear()), [dispatch]);

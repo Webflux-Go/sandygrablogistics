@@ -4,7 +4,7 @@ import Reveal from "../motion/reveal";
 // TODO: replace these stand-ins with real photos of the founder at work.
 const PHOTOS = [
   {
-    src: "https://images.unsplash.com/photo-1672380135241-c024f7fbfa13?w=1000&q=80&auto=format&fit=crop",
+    src: "/sandygrabsgroup.jpeg",
     alt: "Closing a supplier deal with a handshake",
     className: "sm:col-span-2 sm:row-span-2",
   },
@@ -13,8 +13,8 @@ const PHOTOS = [
     alt: "Reviewing shipping paperwork with a partner",
   },
   {
-    src: "https://images.unsplash.com/photo-1563132337-f159f484226c?w=800&q=80&auto=format&fit=crop",
-    alt: "On a call coordinating a shipment",
+    src: "https://images.unsplash.com/photo-1672380135241-c024f7fbfa13?w=1000&q=80&auto=format&fit=crop",
+    alt: "Sandygrabs logistics",
   },
   {
     src: "https://images.unsplash.com/photo-1698047682091-782b1e5c6536?w=800&q=80&auto=format&fit=crop",

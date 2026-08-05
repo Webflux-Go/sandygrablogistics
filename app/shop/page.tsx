@@ -8,6 +8,45 @@ import PromoBanner from "@/app/components/shop/promo-banner";
 import Locations from "@/app/components/locations";
 import ShopFooter from "@/app/components/shop/footer";
 import { getCurrentUser } from "@/lib/auth/user";
+import { getCategories } from "@/lib/sanity/queries";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string; search?: string }>;
+}): Promise<Metadata> {
+  const { category, search } = await searchParams;
+
+  // A search results page is thin, duplicate-ish content — indexing it competes with the real
+  // category pages for the same terms, so it's excluded while staying crawlable for its links.
+  if (search) {
+    return {
+      title: `Search: ${search}`,
+      robots: { index: false, follow: true },
+    };
+  }
+
+  if (category) {
+    const categories = await getCategories();
+    const match = categories.find((item) => item.slug === category);
+
+    if (match) {
+      return {
+        title: `${match.name} from Turkey`,
+        description: `Shop ${match.name.toLowerCase()} sourced direct from Turkish factories by Sandygrabs. Factory prices, inspection before shipping, and delivery to Nigeria and worldwide.`,
+        alternates: { canonical: `/shop?category=${category}` },
+      };
+    }
+  }
+
+  return {
+    title: "Shop Turkish Furniture, Doors & Lighting",
+    description:
+      "Browse Sandygrabs SourceHub — authentic Turkish furniture, bedroom sets, dining, doors and lighting at factory prices, inspected before shipping and delivered worldwide.",
+    alternates: { canonical: "/shop" },
+  };
+}
 
 export default async function ShopPage({
   searchParams,

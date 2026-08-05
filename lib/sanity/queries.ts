@@ -14,7 +14,8 @@ const productProjection = groq`{
   badge,
   stock,
   featured,
-  "category": category->{ _id, name, "slug": slug.current }
+  "category": category->{ _id, name, "slug": slug.current },
+  addOns[]{ _key, name, price, description }
 }`;
 
 const featuredProductsQuery = groq`*[_type == "product" && featured == true] | order(_createdAt desc) [0...8] ${productProjection}`;
@@ -44,6 +45,17 @@ const collectionsQuery = groq`*[_type == "collection"] | order(name asc) {
 }`;
 
 const productByIdQuery = groq`*[_type == "product" && _id == $id][0] ${productProjection}`;
+
+const productBySlugQuery = groq`*[_type == "product" && slug.current == $slug][0] ${productProjection}`;
+
+// Same category, excluding the product being viewed. Kept small — this is a footer rail, not a
+// second catalogue.
+const relatedProductsQuery = groq`*[
+  _type == "product"
+  && _id != $excludeId
+  && defined($categorySlug)
+  && category->slug.current == $categorySlug
+] | order(_createdAt desc) [0...4] ${productProjection}`;
 
 export async function getFeaturedProducts(): Promise<Product[]> {
   const client = getSanityClient();
@@ -95,6 +107,61 @@ export async function getProductById(id: string): Promise<Product | null> {
   } catch (error) {
     console.warn("[sanity] getProductById failed:", error);
     return null;
+  }
+}
+
+export async function getProductBySlug(slug: string): Promise<Product | null> {
+  const client = getSanityClient();
+  if (!client) return null;
+  try {
+    return await client.fetch<Product | null>(productBySlugQuery, { slug });
+  } catch (error) {
+    console.warn("[sanity] getProductBySlug failed:", error);
+    return null;
+  }
+}
+
+export async function getRelatedProducts(params: {
+  categorySlug?: string | null;
+  excludeId: string;
+}): Promise<Product[]> {
+  const client = getSanityClient();
+  if (!client || !params.categorySlug) return [];
+  try {
+    return await client.fetch<Product[]>(relatedProductsQuery, {
+      categorySlug: params.categorySlug,
+      excludeId: params.excludeId,
+    });
+  } catch (error) {
+    console.warn("[sanity] getRelatedProducts failed:", error);
+    return [];
+  }
+}
+
+/**
+ * Slugs and last-modified dates for the sitemap. Deliberately a separate, minimal projection —
+ * pulling full products (images, add-ons, descriptions) just to list URLs would be wasteful.
+ */
+export async function getSitemapEntries(): Promise<{
+  products: { slug: string; updatedAt: string }[];
+  categories: { slug: string }[];
+}> {
+  const client = getSanityClient();
+  if (!client) return { products: [], categories: [] };
+
+  try {
+    return await client.fetch(groq`{
+      "products": *[_type == "product" && defined(slug.current)]{
+        "slug": slug.current,
+        "updatedAt": _updatedAt
+      },
+      "categories": *[_type == "category" && !defined(parent) && defined(slug.current)]{
+        "slug": slug.current
+      }
+    }`);
+  } catch (error) {
+    console.warn("[sanity] getSitemapEntries failed:", error);
+    return { products: [], categories: [] };
   }
 }
 

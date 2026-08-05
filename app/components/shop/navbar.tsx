@@ -3,12 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { LogOut, Menu, ShoppingBag, User, X } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Menu, ShoppingBag } from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
 import { useModal } from "@/hooks/use-modal";
-import { signOut } from "@/actions/auth";
 import AccountMenu from "./account-menu";
+import ShopMobileMenu from "./mobile-menu";
 
 const LINKS = [
   { href: "/shop", label: "Home" },
@@ -20,7 +19,6 @@ const LINKS = [
 
 export default function ShopNavbar({ email }: { email: string | null }) {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
   const { count } = useCart();
   const { open: openModal } = useModal();
 
@@ -69,64 +67,26 @@ export default function ShopNavbar({ email }: { email: string | null }) {
             )}
           </button>
 
+          {/* The overlay covers this button and carries its own close control, so it only ever
+              needs to show the "open" state. */}
           <button
             type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-label="Toggle menu"
+            onClick={() => setOpen(true)}
+            aria-label="Open menu"
             aria-expanded={open}
             className="inline-flex h-10 w-10 items-center justify-center rounded-full text-neutral-700 transition-colors hover:bg-gold-50 hover:text-gold-700 lg:hidden"
           >
-            {open ? <X size={20} /> : <Menu size={20} />}
+            <Menu size={20} />
           </button>
         </div>
       </div>
 
       {open && (
-        <div className="flex flex-col gap-1 border-t border-neutral-200 px-4 py-3 lg:hidden">
-          {LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="rounded-lg px-3 py-2.5 text-sm text-neutral-700 hover:bg-gold-50 hover:text-gold-700"
-            >
-              {link.label}
-            </Link>
-          ))}
-
-          <div className="mt-2 border-t border-neutral-100 pt-2">
-            {email ? (
-              <>
-                <p className="px-3 py-1 text-xs text-neutral-400">Signed in as</p>
-                <p className="truncate px-3 pb-2 text-sm font-medium text-neutral-900">
-                  {email}
-                </p>
-                <button
-                  type="button"
-                  onClick={async () => {
-                    setOpen(false);
-                    await signOut();
-                    router.refresh();
-                  }}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-left text-sm text-neutral-700 hover:bg-neutral-100"
-                >
-                  <LogOut size={15} /> Sign out
-                </button>
-              </>
-            ) : (
-              <button
-                type="button"
-                onClick={() => {
-                  setOpen(false);
-                  openModal("auth");
-                }}
-                className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-left text-sm text-neutral-700 hover:bg-neutral-100"
-              >
-                <User size={15} /> Sign in
-              </button>
-            )}
-          </div>
-        </div>
+        <ShopMobileMenu
+          links={LINKS}
+          email={email}
+          onClose={() => setOpen(false)}
+        />
       )}
     </header>
   );

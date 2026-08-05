@@ -37,7 +37,7 @@ function CartPanel() {
         ) : (
           <ul className="flex flex-col gap-4">
             {items.map((item) => (
-              <li key={item.productId} className="flex gap-3">
+              <li key={item.lineId} className="flex gap-3">
                 <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-neutral-100">
                   {item.image && (
                     <Image
@@ -54,18 +54,34 @@ function CartPanel() {
                     <p className="text-sm font-medium text-neutral-900">{item.name}</p>
                     <button
                       type="button"
-                      onClick={() => remove(item.productId)}
+                      onClick={() => remove(item.lineId)}
                       aria-label={`Remove ${item.name}`}
                       className="text-neutral-400 transition-colors hover:text-neutral-900"
                     >
                       <X size={14} />
                     </button>
                   </div>
+
+                  {/* Without this the shopper can't tell two lines of the same product apart,
+                      and the higher price on one of them looks like a bug. */}
+                  {item.addOns.length > 0 && (
+                    <ul className="flex flex-col gap-0.5">
+                      {item.addOns.map((addOn) => (
+                        <li key={addOn.key} className="text-xs text-neutral-500">
+                          + {addOn.name}{" "}
+                          <span className="text-neutral-400">
+                            ({formatNaira(addOn.price)})
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
                   <p className="text-sm text-neutral-500">{formatNaira(item.price)}</p>
                   <div className="mt-1 inline-flex w-fit items-center gap-3 rounded-full border border-neutral-200 px-2 py-1">
                     <button
                       type="button"
-                      onClick={() => updateQuantity(item.productId, item.quantity - 1)}
+                      onClick={() => updateQuantity(item.lineId, item.quantity - 1)}
                       aria-label="Decrease quantity"
                       className="text-neutral-500 transition-colors hover:text-gold-700"
                     >
@@ -76,7 +92,7 @@ function CartPanel() {
                     </span>
                     <button
                       type="button"
-                      onClick={() => updateQuantity(item.productId, item.quantity + 1)}
+                      onClick={() => updateQuantity(item.lineId, item.quantity + 1)}
                       aria-label="Increase quantity"
                       className="text-neutral-500 transition-colors hover:text-gold-700"
                     >
