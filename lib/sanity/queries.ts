@@ -110,6 +110,24 @@ export async function getProductById(id: string): Promise<Product | null> {
   }
 }
 
+/**
+ * Products for a list of ids, used by the wishlist. Ids that no longer resolve (product deleted
+ * in the Studio) are simply absent from the result rather than erroring.
+ */
+export async function getProductsByIds(ids: string[]): Promise<Product[]> {
+  const client = getSanityClient();
+  if (!client || ids.length === 0) return [];
+  try {
+    return await client.fetch<Product[]>(
+      groq`*[_type == "product" && _id in $ids] ${productProjection}`,
+      { ids }
+    );
+  } catch (error) {
+    console.warn("[sanity] getProductsByIds failed:", error);
+    return [];
+  }
+}
+
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   const client = getSanityClient();
   if (!client) return null;

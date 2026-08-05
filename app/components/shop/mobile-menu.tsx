@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { LogOut, ShoppingBag, User, X } from "lucide-react";
+import { Heart, LogOut, Package, ShoppingBag, User, X } from "lucide-react";
 import FullscreenMenu, { useMenuClose } from "../motion/fullscreen-menu";
 import { useCart } from "@/hooks/use-cart";
 import { useModal } from "@/hooks/use-modal";
@@ -91,6 +91,26 @@ function MenuContent({
           <div data-menu-item className="flex flex-col gap-2">
             <p className="text-xs text-neutral-400">Signed in as</p>
             <p className="truncate text-sm font-medium text-neutral-900">{email}</p>
+
+            <div className="mt-1 grid grid-cols-2 gap-2">
+              <Link
+                href="/shop/account"
+                onClick={close}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-neutral-200 px-3 py-2.5 text-sm font-medium text-neutral-900 transition-colors hover:bg-gold-50 hover:text-gold-700"
+              >
+                <Package size={15} />
+                Orders
+              </Link>
+              <Link
+                href="/shop/account/wishlist"
+                onClick={close}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-neutral-200 px-3 py-2.5 text-sm font-medium text-neutral-900 transition-colors hover:bg-gold-50 hover:text-gold-700"
+              >
+                <Heart size={15} />
+                Wishlist
+              </Link>
+            </div>
+
             <button
               type="button"
               onClick={async () => {

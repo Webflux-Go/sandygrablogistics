@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState, useTransition } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronDown, LogOut, User } from "lucide-react";
+import { ChevronDown, Heart, LogOut, Package, User } from "lucide-react";
 import { signOut } from "@/actions/auth";
 import { useModal } from "@/hooks/use-modal";
 
@@ -68,6 +69,27 @@ export default function AccountMenu({ email }: { email: string | null }) {
             <p className="text-xs text-neutral-400">Signed in as</p>
             <p className="truncate text-sm font-medium text-neutral-900">{email}</p>
           </div>
+          <div className="my-1 border-t border-neutral-100" />
+
+          <Link
+            href="/shop/account"
+            role="menuitem"
+            onClick={() => setMenuOpen(false)}
+            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-neutral-700 transition-colors hover:bg-neutral-100"
+          >
+            <Package size={15} />
+            Your orders
+          </Link>
+          <Link
+            href="/shop/account/wishlist"
+            role="menuitem"
+            onClick={() => setMenuOpen(false)}
+            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-neutral-700 transition-colors hover:bg-neutral-100"
+          >
+            <Heart size={15} />
+            Wishlist
+          </Link>
+
           <div className="my-1 border-t border-neutral-100" />
           <button
             type="button"

@@ -5,6 +5,7 @@ import { getProductById } from "@/lib/sanity/queries";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 import { initTransaction } from "@/lib/paystack/client";
 import { absoluteUrl } from "@/lib/site-url";
+import { getCurrentUser } from "@/lib/auth/user";
 import type { CartItem } from "@/types/cart";
 import type { CheckoutContactInfo } from "@/types/order";
 
@@ -76,9 +77,14 @@ export async function createCheckoutSession(
 
   const reference = `sg_${randomUUID()}`;
 
+  // Attach the signed-in shopper so the order shows up under their account. Stays null for
+  // guest checkout, which the orders table explicitly allows.
+  const user = await getCurrentUser();
+
   const { data: order, error: orderError } = await supabase
     .from("orders")
     .insert({
+      user_id: user?.id ?? null,
       email: contact.email,
       status: "pending",
       paystack_reference: reference,

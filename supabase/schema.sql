@@ -94,3 +94,34 @@ create policy "Anyone can subscribe to the newsletter"
 --   select id from auth.users where email = 'you@example.com';
 -- then:
 --   insert into admin_users (user_id) values ('<your-auth-uid>');
+
+-- ---------------------------------------------------------------------------
+-- Wishlist (added with the customer account pages)
+-- ---------------------------------------------------------------------------
+
+-- Saved products, per signed-in user. Guests keep a wishlist in localStorage instead; it is
+-- merged into this table the first time they sign in.
+create table if not exists wishlist_items (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  product_id text not null, -- Sanity document _id (cross-system, not a foreign key)
+  created_at timestamptz not null default now(),
+  -- Composite key makes "save twice" a no-op instead of a duplicate row, which is what lets
+  -- the guest-wishlist merge be a plain upsert.
+  primary key (user_id, product_id)
+);
+
+alter table wishlist_items enable row level security;
+
+-- Unlike orders, the wishlist is only ever touched by the signed-in owner, so it is read and
+-- written through the cookie-bound client and these policies do the enforcing.
+create policy "Users can view their own wishlist"
+  on wishlist_items for select
+  using (auth.uid() = user_id);
+
+create policy "Users can add to their own wishlist"
+  on wishlist_items for insert
+  with check (auth.uid() = user_id);
+
+create policy "Users can remove from their own wishlist"
+  on wishlist_items for delete
+  using (auth.uid() = user_id);
