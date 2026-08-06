@@ -53,8 +53,12 @@ create table if not exists order_emails (
 );
 
 -- Idempotency guard: Paystack retries webhooks, and a retry must never re-email the customer.
+--
+-- Scoped to status = 'sent' deliberately. Without that clause a *failed* attempt also claimed
+-- the slot, so an order whose confirmation failed (bad EMAIL_FROM, unverified domain, Resend
+-- outage) could never be sent one — the customer silently never heard from us.
 create unique index if not exists order_emails_confirmation_once
-  on order_emails (order_id) where kind = 'confirmation';
+  on order_emails (order_id) where kind = 'confirmation' and status = 'sent';
 
 alter table orders enable row level security;
 alter table order_items enable row level security;

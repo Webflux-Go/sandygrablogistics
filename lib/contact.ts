@@ -1,6 +1,6 @@
 // Local number 07026805260 → international E.164 without the leading 0 or "+", which is the
 // format wa.me requires.
-export const WHATSAPP_NUMBER = "2347026805260";
+export const WHATSAPP_NUMBER = "2348121487539";
 
 export const WHATSAPP_QUOTE_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
   "Hi Sandygrabs, I'd like to get a quote."
@@ -13,7 +13,7 @@ export const WHATSAPP_CHAT_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encode
 )}`;
 
 // TODO(sandygrabs): confirm this mailbox exists — assumed from the sandygrabslogistics.com domain.
-export const SUPPORT_EMAIL = "Sandygrabs@fenotenaiv.resend.app";
+export const SUPPORT_EMAIL = "Sandygrabslogistics@gmail.com";
 
 /**
  * Shared by both footers so the two can't drift apart.
